@@ -167,7 +167,7 @@ hr.small {
 .about {
     padding: 50px 0;
 }
-
+<!--
 /* Services */
 
 .services {
@@ -237,7 +237,7 @@ hr.small {
 .scrolloff {
     pointer-events: none;
 }
-
+-->
 /* Footer */
 
 footer {
