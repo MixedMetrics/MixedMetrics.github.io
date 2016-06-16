@@ -177,7 +177,7 @@ hr.small {
     margin-bottom: 30px;
 }
 
-
+<!--
 /* Callout */
 
 .callout {
@@ -236,6 +236,9 @@ hr.small {
 .scrolloff {
     pointer-events: none;
 }
+
+
+-->
 /* Footer */
 
 footer {
