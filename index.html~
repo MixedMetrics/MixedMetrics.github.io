@@ -51,7 +51,7 @@
 							<p>Data Science Consulting in Eugene, OR</p>
 						</div>
 					</section>
-<!--
+
 				<!-- Wrapper -->
 
 					<section id="wrapper">
@@ -59,7 +59,7 @@
 						<!-- One -->
 							<section id="one" class="wrapper spotlight style1">
 								<div class="inner">
-									<a href="#" class="image"><img src="images/bg1.jpg" alt="" /></a>
+									<a href="#" class="image"><img src="images/sb_distance_small.jpg" alt="" /></a>
 									<div class="content">
 										<h2 class="major">Data Science for the Silicon Shire</h2>
 										<p>We offer Data Science consulting service to businesses in Eugene, OR .</p>
@@ -67,7 +67,7 @@
 								</div>
 							</section>
 
--->
+
 				<!-- Footer -->
 					<section id="footer">
 						
