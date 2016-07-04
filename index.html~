@@ -33,7 +33,9 @@
 							<h2>Menu</h2>
 							<ul class="links">
 								<li><a href="index.html">Home</a></li>
- 							        More to come!
+								<li><a href="about.html">Mission</a></li>
+
+								<li><a href="bio.html">Bio</a></li>
 								<!-- <li><a href="generic.html">Generic</a></li>
 								<li><a href="elements.html">Elements</a></li>
 								<li><a href="#">Log In</a></li>
@@ -62,7 +64,7 @@
 									<a href="#" class="image"><img src="images/sb_distance_small.jpg" alt="" /></a>
 									<div class="content">
 										<h2 class="major">Data Science for the Silicon Shire</h2>
-										<p>We offer Data Science consulting service to businesses in Eugene, OR .</p>
+										<p>We offer Data Science consulting services in Eugene, OR.  </p>
 									</div>
 								</div>
 							</section>
