@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>Levetrage</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html --> 
+<meta name="src" content="wp2.tex"> 
+<meta name="date" content="2017-06-14 22:25:00"> 
+<link rel="stylesheet" type="text/css" href="wp2.css"> 
+</head><body 
+>
+  <div class="maketitle">
+  <h2 class="titleHead">
+IMPLEMENTING MIXED STRATEGIES ON THE BLOCKCHAIN
+  </h2>
+<div class="submaketitle">
+</div>
+  </div>
+         <div class="abstract">
+       <!--l. 24--><p class="indent" >   <span class="title">
+       <span 
+class="cmcsc-10x-x-80">A<span 
+class="small-caps">b</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">a</span><span 
+class="small-caps">c</span><span 
+class="small-caps">t</span>.</span> </span><span 
+class="cmr-8">We  explore  innovations  available  using  blockchain  technologies</span>
+       <span 
+class="cmr-8">which  allow  two  or  more  parties  with  conflicting  interests  to  come  to</span>
+       <span 
+class="cmr-8">cooperative  agreements.  In  light  of  Rubinstein&#8217;s  strategic  approach  to</span>
+       <span 
+class="cmr-8">bargaining,  it  is  clear  that  a  probabilistic  negotiation  device  would  be  an</span>
+       <span 
+class="cmr-8">effective tool toward reaching the Nash Bargaining Solution. We argue that</span>
+       <span 
+class="cmr-8">the blockchain may provide players with such a commitment device. Rational</span>
+       <span 
+class="cmr-8">players with access to such a device should, in actual practice, be able to come</span>
+       <span 
+class="cmr-8">to an agreement very near the Nash Bargaining Solution, in a short amount</span>
+       <span 
+class="cmr-8">of time.</span></div>
+  <h3 class="sectionHead"><span class="titlemark">1. </span> <a 
+ id="x1-10001"></a>Introduction</h3>
+<!--l. 28--><p class="noindent" >The bargaining problem is often given as follows <span class="cite">&#x00A0;[<a 
+href="#XR82">Rub82</a>,&#x00A0;pg 97]</span>:
+       <!--l. 31--><p class="indent" >    Two individuals have before them several possible contractual
+       agreements. Both have interests in reaching agreement but their
+       interests  are  not  entirely  identical.  What  &#8220;will  be&#8221;  the  agreed
+       contract, assuming that both parties behave rationally?
+<!--l. 33--><p class="noindent" >This is a difficult problem. Without ways to enforce binding threats, negotiation can be
+unpredictable, and often the outcome is determined by factors not easy to quantify
+within the scope of classical economic discussions. Solutions to hard problems are by
+nature evasive, so academics usually restrict themselves to tractable models. In 1953,
+Nash <span class="cite">&#x00A0;[<a 
+href="#XNash53">Nas53</a>]</span> studied a model demand game, and gave axiomatic characterizations of
+the so called Nash Bargaining Solution. Rubinstein&#8217;s seminal paper <span class="cite">&#x00A0;[<a 
+href="#XR82">Rub82</a>]</span> in 1982
+indicated a possible strategic approach towards inducing a solution. Rubinstein&#8217;s game
+(developed further in <span class="cite">&#x00A0;[<a 
+href="#XBRW86">BRW86</a>]</span>) introduced two factors forcing the players to resolve the
+game: 1) A penalty for time spent negotiating and 2) exogenous probability of
+negotiation breakdown.
+<!--l. 35--><p class="indent" >  Game theoretical situations, in contrast to real world negotiations, usually allow
+players to choose from a finite-parameter space of moves. In the real world, there are an
+unlimited number of moves, and there are an unlimited number of games players can
+choose to play. If one player has the ability to fully commit to a threat, this
+player can change the nature of the game by limiting the rational options of his
+opponent.
+<!--l. 37--><p class="indent" >  We argue that the blockchain provides two important features that make a Rubinstein
+solution practical. First, genuine, publicly observable randomness (cf. <span class="cite">&#x00A0;[<a 
+href="#XBCG">BCG15</a>]</span>).
+Second, smart contracts that allow for sums of money to be directed around, based on
+randomness or on the direction of neutral oracles. With smart contracts, it is now much
+easier to credibly make threats.
+
+<!--l. 40--><p class="indent" >  We refer the reader to T.C. Schelling&#8217;s classic text, <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>]</span> for a fascinating
+discussion of how game theory meets the real world. A more modern reference on the
+theoretical side is given in the monograph <span class="cite">&#x00A0;[<a 
+href="#XMuthoo">Mut99</a>]</span>, which includes a thorough
+discussion of Rubinstein type games.
+  <h3 class="sectionHead"><span class="titlemark">2. </span> <a 
+ id="x1-20002"></a>Levetrage</h3>
+<!--l. 45--><p class="noindent" >When two parties are negotiating over a surplus, there is a well-defined idea in game
+theory literature of what the agreement &#8220;should&#8221; be. This is called the Nash Bargaining
+Solution (NBS). Assuming that the NBS is the result of an efficient market,
+any agreement reached other than the NBS should be considered a market
+inefficiency.
+<!--l. 47--><p class="indent" >  We begin by stating our main result here, and then explain its components in the
+sequel. This is essentially given by arguments in <span class="cite">&#x00A0;[<a 
+href="#XR82">Rub82</a>]</span>.
+  <div class="newtheorem">
+<!--l. 49--><p class="noindent" ><span class="head">
+<a 
+ id="x1-2001r1"></a>
+<span 
+class="cmbx-10">Theorem 1.</span>  </span> <span 
+class="cmti-10">Suppose that two players are negotiating in a symmetric game where</span>
+<span 
+class="cmti-10">they each have access to commitment devices, commitment release devices, and</span>
+<span 
+class="cmti-10">probabilistic commitment devices. Rational players should agree very soon to an</span>
+<span 
+class="cmti-10">agreement very near the Nash Bargaining Solution.</span>
+  </div>
+<!--l. 52--><p class="indent" >  The following corollary follows from the translation invariance assumption of the Nash
+problem.
+  <div class="newtheorem">
+<!--l. 54--><p class="noindent" ><span class="head">
+<a 
+ id="x1-2002r1"></a>
+<span 
+class="cmbx-10">Corollary 1.</span>  </span><span 
+class="cmti-10">Suppose </span><span 
+class="cmmi-10">A </span><span 
+class="cmti-10">has a legal right and ability to cause an event </span><span 
+class="cmmi-10">T </span><span 
+class="cmti-10">to happen.</span>
+<span 
+class="cmti-10">If the cost to </span><span 
+class="cmmi-10">A </span><span 
+class="cmti-10">of event </span><span 
+class="cmmi-10">T </span><span 
+class="cmti-10">is </span><span 
+class="cmmi-10">c</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmti-10">and the cost to </span><span 
+class="cmmi-10">B </span><span 
+class="cmti-10">is </span><span 
+class="cmmi-10">c</span><sub><span 
+class="cmr-7">2</span></sub><span 
+class="cmti-10">, and if all players are rational</span>
+<span 
+class="cmti-10">and have access to probabilistic commitment devices and a device committing to </span><span 
+class="cmmi-10">T</span><span 
+class="cmti-10">,</span>
+<span 
+class="cmmi-10">B </span><span 
+class="cmti-10">should pay </span><span 
+class="cmmi-10">A </span><span 
+class="cmti-10">a sum of</span> <img 
+src="wp20x.png" alt="c -c
+-221-"  class="frac" align="middle"> <span 
+class="cmti-10">to agree to not cause </span><span 
+class="cmmi-10">T</span><span 
+class="cmti-10">.</span>
+  </div>
+  <h3 class="sectionHead"><span class="titlemark">3. </span> <a 
+ id="x1-30003"></a>commitment devices</h3>
+<!--l. 60--><p class="noindent" >Paraphrasing Schelling&#8217;s definition of commitment: <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>]</span>[pg 127], we say that
+commitment involves maneuvers that leave one in a position so that their only rational
+option is follow through with a threat. The object of commitment is the credibility of a
+threat. Nash nicely summarizes the issues involving threats as follows <span class="cite">&#x00A0;[<a 
+href="#XNash53">Nas53</a>,&#x00A0;pg
+130]</span>:
+       <!--l. 61--><p class="indent" >    If one considers the process of making a threat, one sees that its
+       elements are as follows: A threatens B by convincing B that if B
+       does not act in compliance with A&#8217;s demands, then A will follow
+       a certain policy T. Suppose A and B to be rational beings, it is
+
+       essential for the success of the threat that A be <span 
+class="cmti-10">compelled </span>to carry
+       out his threat T if B fails to comply. Otherwise it will have little
+       meaning. For, in general, to execute the threat will not be something
+       A would want to do, just of itself. The point of this discussion is
+       that we must assume there is an adequate mechanism for forcing
+       players to stick to their threats and demands once made: and one
+       to enforce the bargain, once agreed. Thus we need a sort of umpire,
+       who will enforce contracts of commitments.
+<!--l. 66--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">3.1. </span> <a 
+ id="x1-40003.1"></a><span 
+class="cmbx-10">Commitment Using the Blockchain.</span></span>
+<!--l. 68--><p class="indent" >  Smart contracts on the blockchain can provide a simple mechanism for commitment,
+by using an oracle. Suppose that <span 
+class="cmmi-10">A </span>makes a threat. <span 
+class="cmmi-10">A </span>can can always borrow a large
+amount of money, and tie the funds up in a smart contract on the blockchain. If a
+trusted oracle determines that the threat has not been followed through, the funds are
+&#8220;burned&#8221;. So if two players are bargaining over $100, <span 
+class="cmmi-10">A </span>can declare that he will lose $100
+if he accepts less than $95. Now <span 
+class="cmmi-10">B </span>has no rational choice but to agree to $95. We
+assume that the oracle can only see the outcome of the final agreement, and
+is not corruptible. (In practice, the perceived corruptibility is potentially an
+issue.)
+<!--l. 70--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">3.2. </span> <a 
+ id="x1-50003.2"></a><span 
+class="cmbx-10">Commitment Release.</span></span>
+<!--l. 71--><p class="indent" >  Taken at face value, the above commitment device leads to a &#8220;draw first&#8221; game.
+However, we argue that if one can create a commitment, one should also be able to
+create a way to release the other side from commitment. For example, if <span 
+class="cmmi-10">A </span>ties up $100
+in a contract, <span 
+class="cmmi-10">B </span>can counter with a slightly more complex contract: <span 
+class="cmmi-10">B </span>also ties up $100,
+and loses his $100 if he makes any agreement, unless, $50 is deposited into
+a third account that is directly controlled by <span 
+class="cmmi-10">B</span>. Now <span 
+class="cmmi-10">A </span>is released from his
+commitment: He can create a contract that controls $50, sending it to the account
+controlled by <span 
+class="cmmi-10">B</span>, if and only if <span 
+class="cmmi-10">B </span>agrees to the original 95/5 split. The oracle
+governing <span 
+class="cmmi-10">A</span>&#8217;s original contract can only see that an acceptable 95/5 split has
+been agreed to, but cannot see that <span 
+class="cmmi-10">A </span>is contemporaneously giving $50 back to
+<span 
+class="cmmi-10">B</span>.
+<!--l. 73--><p class="indent" >  It does not take much imagination to see, that with trustworthy but scope-limited
+oracles, this game can can go on ad infinitum.
+<!--l. 75--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">3.3. </span> <a 
+ id="x1-60003.3"></a><span 
+class="cmbx-10">Advantages of the Blockchain for this type of commitment.</span></span>
+<!--l. 75--><p class="indent" >  Implementing a legal contract accomplishing the above would be more problematic, we
+imagine.<span class="footnote-mark"><a 
+href="wp22.html#fn1x0">1</a></span><a 
+ id="x1-6001f1"></a>
+The code that receives a broadcast signal and either refunds or distributes <span 
+class="cmmi-10">A</span>&#8217;s money is
+not a legal contract. It&#8217;s a piece of code, and does not require considerations from
+multiple parties. Importantly, while a court can rule that a legal contract is not
+enforceable, courts cannot rule code executable, nor can they reverse the execution of the
+code once it is executed.
+
+  <h3 class="sectionHead"><span class="titlemark">4. </span> <a 
+ id="x1-70004"></a>Mixed Strategies</h3>
+<!--l. 78--><p class="noindent" >If players are always able to make and release commitments as in the previous section,
+the game is essentially the same as without these devices. What is needed, then, is a
+threat to make the negotiations fail completely. Provided that a player has a mechanism
+for causing the negotiation to fail, this player can turn a messy game into a much tidier
+Rubinstein type game.
+<!--l. 81--><p class="indent" >  In particular, suppose that <span 
+class="cmmi-10">A </span>knows that commencing irrevocable event <span 
+class="cmmi-10">T </span>will cause
+the negotiation to fail, to both players&#8217; detriment. <span 
+class="cmmi-10">A </span>can make an offer on some block of
+the blockchain, and then attach to it a probability <span 
+class="cmmi-10">p</span>. If, after so many blocks, the offer is
+not accepted, then <span 
+class="cmmi-10">T </span>happens with probability (1 <span 
+class="cmsy-10">-</span><span 
+class="cmmi-10">p</span>). Now <span 
+class="cmmi-10">B </span>must not dilly-dally. If the
+offer is acceptable, it should be accepted. It will not be accepted, only in the
+situation that <span 
+class="cmmi-10">B </span>believes that <span 
+class="cmmi-10">B </span>can achieve a better outcome by continuing
+negotiation.
+<!--l. 83--><p class="indent" >  At this point, we claim the game is almost symmetric: <span 
+class="cmmi-10">B </span>could immediately make a
+counter offer of the same nature, so provided <span 
+class="cmmi-10">p </span>is near 1 there is little difference in who
+goes first. Now <span 
+class="cmmi-10">A </span>should not make <span 
+class="cmmi-10">p </span>too low: <span 
+class="cmmi-10">B </span>can always immediately return the same
+offer the instant (or the next block) that <span 
+class="cmmi-10">B </span>receives the offer. So little is gained by
+making <span 
+class="cmmi-10">p </span>too low. However, there is always a probability that <span 
+class="cmmi-10">B </span>will not receive the the
+threat. The only situation in which a low <span 
+class="cmmi-10">p </span>would give advantage to <span 
+class="cmmi-10">A </span>would be if <span 
+class="cmmi-10">A</span>
+catches <span 
+class="cmmi-10">B </span>in a situation where <span 
+class="cmmi-10">B </span>has the ability to immediately accept the offer
+the instant it is offered, but not the ability to immediately return a counter
+offer.
+<!--l. 84--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">4.1. </span> <a 
+ id="x1-80004.1"></a><span 
+class="cmbx-10">Proof of Theorem 1.</span></span>
+<!--l. 85--><p class="indent" >  We prove our theorem by arguing that <span 
+class="cmmi-10">p </span>should be very close to 1 and the offer should
+be the Nash Bargaining Solution. (Recall that in the simplest symmetric case, the NBS
+simply splits the pot). We argue by contradiction: First we suppose that there is a
+strategy for <span 
+class="cmmi-10">A </span>that has an expectation of larger than 1<span 
+class="cmmi-10">&#x2215;</span>2. <span 
+class="cmmi-10">A </span>makes the offer determined
+by this strategy. Now the instant that the offer is received, by symmetry, <span 
+class="cmmi-10">B </span>believes they
+can maximize their expectations going forward by making the same counter offer. Since
+this move by <span 
+class="cmmi-10">B </span>(who is assumed rational) is determined, the expectation to <span 
+class="cmmi-10">A </span>is still the
+expectation that remains. But <span 
+class="cmmi-10">B</span>&#8217;s expectation is at least that of <span 
+class="cmmi-10">A</span>&#8217;s, so both are larger
+than 1<span 
+class="cmmi-10">&#x2215;</span>2, a contradiction. So 1<span 
+class="cmmi-10">&#x2215;</span>2 is an upper bound for expectations to <span 
+class="cmmi-10">A</span>. Thus, if <span 
+class="cmmi-10">A</span>
+can achieve 1<span 
+class="cmmi-10">&#x2215;</span>2 via strategy <span 
+class="cmmi-10">S</span>, <span 
+class="cmmi-10">A </span>should implement <span 
+class="cmmi-10">S</span>. One such strategy is
+to begin by offering 1<span 
+class="cmmi-10">&#x2215;</span>2. <span 
+class="cmmi-10">B </span>also knows that the best <span 
+class="cmmi-10">B </span>can hope for is 1<span 
+class="cmmi-10">&#x2215;</span>2,
+so <span 
+class="cmmi-10">B </span>will accept it if offered. So <span 
+class="cmmi-10">A </span>should make an offer, but attach with it
+some probability <span 
+class="cmmi-10">p &#x003C; </span>1. By choosing <span 
+class="cmmi-10">p </span>slightly less than 1, <span 
+class="cmmi-10">B </span>should accept as
+soon as possible, so as to minimize the probability that the game will end in
+failure.
+  <h3 class="sectionHead"><span class="titlemark">5. </span> <a 
+ id="x1-90005"></a>Disagreement Device</h3>
+<!--l. 91--><p class="noindent" >In order to implement the game described in the previous section, we needed a credible
+disagreement device. In the literature, this problem is nontrivial: For example, we quote
+from a 2011 discussion of Rubinstein&#8217;s game <span class="cite">&#x00A0;[<a 
+href="#XBA2011">AB11</a>]</span>:
+       <!--l. 93--><p class="indent" >    The  presence  of  Nature&#8217;s  choice  in  that  procedure  is  very
+       appealing. It points out the possibility that a relationship may end
+       after a failure to reach an agreement with some probability. But
+
+       the fact that this probability is determined by one of the players
+       may not be deemed very realistic.
+<!--l. 99--><p class="indent" >  With the randomness present in the blockchain, the probability can be determined by
+one of the players realistically. What is left is for us to show is that the blockchain can
+trigger a disagreement event. This means the contract should take an action that the
+player who created the contract cannot take back, and should be damaging to the other
+party.
+<!--l. 101--><p class="indent" >  We suggest a very simple form of such a device: The contract takes funds that
+previously belonged to a player, and deposits these into an account held by a third party.
+The third party has invoiced the player for services to be delivered as soon as funds are
+transfered. The player and the third party have signed an agreement making any
+payments non-refundable.
+<!--l. 103--><p class="indent" >  While there are a number a services that can legally be contracted for, we suggest one
+in particular: negative publicity.
+<!--l. 105--><p class="indent" >  For example, a player may make an arrangement with a PR firm for $2500
+worth of negative publicity against his negotiating adversary. The PR agrees
+to perform this, pending a non-refundable payment. In many legal disputes,
+one litigant may have damning information on the adversary that will cause
+more damage to the adversary than the cost of spreading it. This works in
+particular if the litigant has a clear legal right to speak loudly and freely.
+<span class="footnote-mark"><a 
+href="wp23.html#fn2x0">2</a></span><a 
+ id="x1-9001f2"></a> This
+can even be further automated: A freeway billboard company or internet advertising
+agency can sell negative advertising, and publish the advertising the instant the payment
+is received.
+<!--l. 108--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">5.1. </span> <a 
+ id="x1-100005.1"></a><span 
+class="cmbx-10">Example.</span></span>
+<!--l. 109--><p class="indent" >  Suppose a customer is sold a defective product, and the seller refuses to refund the
+product. The customer can threaten to spend several hundred dollars with a marketing
+firm publicizing just how horrible the defective product was. If the business
+stands to lose more in future sales than the cost of the marketing, the business is
+wise to offer the customer a refund, up to an amount determined by Theorem
+<a 
+href="#x1-2001r1">1<!--tex4ht:ref: Levetrage --></a>.
+  <h3 class="sectionHead"><span class="titlemark">6. </span> <a 
+ id="x1-110006"></a>Randomness on the blockchain</h3>
+<!--l. 116--><p class="noindent" >Publicly observable randomness is an interesting open problem. Due to the
+decentralized nature of blockchains, future blocks are extremely hard to predict,
+and we think, the uncertainty is enough for the success of a mixed strategy.
+The question of whether the hash of a future block can be manipulated has
+been studied in <span class="cite">&#x00A0;[<a 
+href="#XBCG">BCG15</a>]</span> and <span class="cite">&#x00A0;[<a 
+href="#XPW16">PW16</a>]</span> where it is shown that some small
+influence may be bought for a very high price, but this must be done by bribing
+some portion of the mining pool. We feel such an attack would be extremely
+impractical. When designing a contract, it should be easy to require enough
+randomness to financially disincentivize any such attack. By simply hashing a
+future block, we should be able convince any observer that the hash will be
+impossible to predict, at least enough to create the effect of mixed strategies.
+Another option is to use an oracle that hashes an externally generated (and
+generally trusted) beacon such as NIST Randomness Beacon <span class="cite">&#x00A0;[<a 
+href="#XNIST">NIS11</a>]</span>. Again, the
+
+only real objective is to refer to a beacon that any adversary will believe is
+unmalleable.
+  <h3 class="sectionHead"><span class="titlemark">7. </span> <a 
+ id="x1-120007"></a>Concept Summary</h3>
+<!--l. 122--><p class="noindent" >The typical use case is as follows. An individual finds herself in a dispute initiated by
+another party, who is somewhat of a bully. Both parties have much to lose if the dispute
+escalates, however, the adversary might have more to lose, in particular because the
+adversary is in the wrong. Unfortunately for the individual, escalating the dispute comes
+with costs, so she is averse to that. The bully knows this, and uses this fact against her,
+continuing to extract concessions, and ignoring all threats. So instead of making a
+vacuous threat, our protagonist makes a probabilistic threat to expose the bully far and
+wide, and follows through with the threat, <span 
+class="cmti-10">probabilistically</span>. The first act of commitment
+is to simply let the random contract be executed. By doing this once, she has
+demonstrated that she can stomach the low probability of a bad outcome, knowing
+that the bully has considerably more exposure. When she makes the threat
+again, the bully can no longer rely on her self-interest and must think about
+his own. If the bully is rational, he will agree to end the dispute on equitable
+terms.
+  <h3 class="sectionHead"><a 
+ id="x1-130007"></a>References</h3>
+<!--l. 8--><p class="noindent" >
+       <div class="thebibliography">
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[AB11]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XBA2011"></a><span 
+class="cmr-8">Nejat  Anbarci  and  John  Boyd,  </span><span 
+class="cmti-8">Nash  demand  game  and  the  kalai-smorodinsky</span>
+       <span 
+class="cmti-8">solution</span><span 
+class="cmr-8">, Games and Economic Behavior </span><span 
+class="cmbx-8">71 </span><span 
+class="cmr-8">(2011), no.</span><span 
+class="cmr-8">&#x00A0;1, 14&#8211;22.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[BCG15]</span> <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XBCG"></a><span 
+class="cmr-8">Joseph  Bonneau,  Jeremy  Clark,  and  Steven  Goldfeder,  </span><span 
+class="cmti-8">On  bitcoin  as  a  public</span>
+       <span 
+class="cmti-8">randomness source</span><span 
+class="cmr-8">, IACR Cryptology ePrint Archive </span><span 
+class="cmbx-8">2015 </span><span 
+class="cmr-8">(2015), 1015.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[BRW86]</span> <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XBRW86"></a><span 
+class="cmr-8">Ken Binmore, Ariel Rubinstein, and Asher Wolinsky, </span><span 
+class="cmti-8">The nash bargaining solution</span>
+       <span 
+class="cmti-8">in economic modelling</span><span 
+class="cmr-8">, RAND Journal of Economics </span><span 
+class="cmbx-8">17 </span><span 
+class="cmr-8">(1986), no.</span><span 
+class="cmr-8">&#x00A0;2, 176&#8211;188.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Mut99]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XMuthoo"></a><span 
+class="cmr-8">Abhinay Muthoo, </span><span 
+class="cmti-8">Bargaining theory with applications</span><span 
+class="cmr-8">, Cambridge University Press,</span>
+       <span 
+class="cmr-8">New York, NY, USA, 1999.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Nas53]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XNash53"></a><span 
+class="cmr-8">John Nash, </span><span 
+class="cmti-8">Two-person cooperative games</span><span 
+class="cmr-8">, Econometrica </span><span 
+class="cmbx-8">21 </span><span 
+class="cmr-8">(1953), no.</span><span 
+class="cmr-8">&#x00A0;1, 128&#8211;140.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[NIS11]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XNIST"></a><span 
+class="cmti-8">Nist randomness beacon</span><span 
+class="cmr-8">, https://beacon.nist.gov (2011).</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[PW16]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XPW16"></a><span 
+class="cmr-8">C</span><span 
+class="cmr-8">écile Pierrot and Benjamin Wesolowski, </span><span 
+class="cmti-8">Malleability of the blockchain&#8217;s entropy</span><span 
+class="cmr-8">,</span>
+       <span 
+class="cmr-8">IACR Cryptology ePrint Archive </span><span 
+class="cmbx-8">2016 </span><span 
+class="cmr-8">(2016), 370.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Rub82]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XR82"></a><span 
+class="cmr-8">Ariel  Rubinstein,  </span><span 
+class="cmti-8">Perfect  equilibrium  in  a  bargaining  model</span><span 
+class="cmr-8">,  Econometrica  </span><span 
+class="cmbx-8">50</span>
+       <span 
+class="cmr-8">(1982), no.</span><span 
+class="cmr-8">&#x00A0;1, 97&#8211;109.</span>
+       </p>
+       <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Sch60]</span>  <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XSchelling1960"></a><span 
+class="cmr-8">T.</span><span 
+class="cmr-8">&#x00A0;C. Schelling, </span><span 
+class="cmti-8">The strategy of conflict</span><span 
+class="cmr-8">, Oxford University Press, 1960.</span>
+</p>
+
+       </div>
+  <div class="addresses">
+<!--l. 126--><p class="indent" >  <span class="email-title">    <span 
+class="cmti-8">E-mail address</span><span 
+class="cmr-8">: </span></span><span class="email"><span 
+class="cmtt-8">mw@levetrage.com</span></span>
+<!--l. 126--><p class="indent" >  <span class="address-title"></span><span class="address"><span 
+class="cmcsc-10x-x-80">M<span 
+class="small-caps">i</span><span 
+class="small-caps">x</span><span 
+class="small-caps">e</span><span 
+class="small-caps">d</span> M<span 
+class="small-caps">e</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">i</span><span 
+class="small-caps">c</span><span 
+class="small-caps">s</span>, LLC</span></span>
+  </div> 
+</body></html> 
+
+
+

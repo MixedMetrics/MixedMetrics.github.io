@@ -1,0 +1,1133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>Mixed Strategy Contracts</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html --> 
+<meta name="src" content="wp1.tex"> 
+<meta name="date" content="2017-06-14 22:28:00"> 
+<link rel="stylesheet" type="text/css" href="wp1.css"> 
+</head><body 
+>
+  <div class="maketitle">
+  <h2 class="titleHead">
+LEVETRAGE: MIXED STRATEGIES ON THE BLOCKCHAIN
+  </h2>
+<div class="submaketitle">
+</div>
+  </div>
+         <div class="abstract">
+       <!--l. 22--><p class="indent" >   <span class="title">
+       <span 
+class="cmcsc-10x-x-80">A<span 
+class="small-caps">b</span><span 
+class="small-caps">s</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">a</span><span 
+class="small-caps">c</span><span 
+class="small-caps">t</span>.</span> </span><span 
+class="cmr-8">We  explore  innovations  available  using  blockchain  technologies</span>
+       <span 
+class="cmr-8">which  allow  two  or  more  parties  with  conflicting  interests  to  come  to</span>
+       <span 
+class="cmr-8">cooperative agreements. We offer a brief background on some of the relevant</span>
+       <span 
+class="cmr-8">game  theory,  including  the  ultimatum  game,  Nash  bargaining  solutions,</span>
+       <span 
+class="cmr-8">and Rubinstein&#8217;s strategic approach. We suggest that with a well-designed</span>
+       <span 
+class="cmr-8">smart  contract  platform,  real  world  solutions  that  are  quite  close  to  their</span>
+       <span 
+class="cmr-8">model  counterparts  in  game  theory  can  be  attained.  We  highlight  two</span>
+       <span 
+class="cmr-8">particular elements that are available on a blockchain: 1) Threat/commitment</span>
+       <span 
+class="cmr-8">enforcement, and 2) genuinely mixed strategies. We argue that a smart contract</span>
+       <span 
+class="cmr-8">platform built on top of Ethereum is not only feasible but will have significant</span>
+       <span 
+class="cmr-8">real world application, which will be of both social and economic value. Finally,</span>
+       <span 
+class="cmr-8">we outline the specifications of such a platform.</span></div>
+  <h3 class="sectionHead"><span class="titlemark">1. </span> <a 
+ id="x1-10001"></a>disclaimer</h3>
+<!--l. 27--><p class="noindent" >This paper contains statements that may appear to be assertions involving contract law,
+or other areas of &#8220;the law&#8221;. Nothing that follows has been vetted by anyone with legal
+qualifications, and we make no such claims.
+  <h3 class="sectionHead"><span class="titlemark">2. </span> <a 
+ id="x1-20002"></a>Introduction</h3>
+<!--l. 29--><p class="noindent" >The bargaining problem is often given as follows <span class="cite">&#x00A0;[<a 
+href="#XR82">Rub82</a>,&#x00A0;pg 97]</span>:
+       <!--l. 31--><p class="indent" >    Two individuals have before them several possible contractual
+       agreements. Both have interests in reaching agreement but their
+       interests  are  not  entirely  identical.  What  &#8220;will  be&#8221;  the  agreed
+       contract, assuming that both parties behave rationally?
+<!--l. 34--><p class="noindent" >This is age-old question has long frustrated game theorists. Without ways to enforce
+binding threats, negotiation can be unpredictable, and often the outcome is determined
+by difficult to quantify &#8220;negotiation skills&#8221;. Solutions to hard problems are by nature
+evasive, so academics usually restrict themselves to tractable models. In 1953, Nash
+<span class="cite">&#x00A0;[<a 
+href="#XNash53">Nas53</a>]</span> studied a model demand game, and gave axiomatic characterizations of the so
+called Nash Bargaining Solution. Rubinstein&#8217;s seminal paper <span class="cite">&#x00A0;[<a 
+href="#XR82">Rub82</a>]</span> in 1982 indicated
+a possible strategic approach towards inducing a solution. Rubinstein&#8217;s game (developed
+further in <span class="cite">&#x00A0;[<a 
+href="#XBRW86">BRW86</a>]</span>) introduced two factors forcing the players to resolve the game: 1) A
+penalty for time spent negotiating and 2) exogenous probability of negotiation
+breakdown.
+<!--l. 36--><p class="indent" >  Game theoretical situations, in contrast to real world negotiations, usually allow
+players to choose from a finite-parameter space of moves. In the real world, there are an
+unlimited number of moves, and there are an unlimited number of games players can
+
+choose to play. In fact, if resolving a situation by playing a game is preferable to not
+doing so, the first leveraged negotiation should be over which game, out of a set of many
+possible games, is to be played. If players are bound to the rules of a game, tidy solutions
+may be found. But no player would agree to play a game whose rules put him at a
+disadvantage.
+<!--l. 38--><p class="indent" >  Using blockchain technologies, we would like to offer a player tools from game theory.
+In particular, the player should be able to make the strongest move possible: A move
+that commits the player to some action in a way that gives limited rational options for
+the adversary, while minimizing the probability of a disastrous outcome. The best way to
+accomplish this objective is to use mixed strategies and smart contracts. We
+hope this will be used to induce solutions that are economically and socially
+optimal.
+<!--l. 40--><p class="indent" >  Often times in the more serious situations, negotiation is handled by expensive
+lawyers, or for other reasons, is costly or inefficient. Wars of attrition are inefficient and
+often lead to an unfair bargain. By setting up a platform, we would like to allow for parts
+of the negotiation process to move more efficiently, with ready-to-go &#8220;moves&#8221; that allow
+a traditionally disadvantaged party to use leverage against larger adversaries, whenever
+the economics of the situation dictates.
+<!--l. 43--><p class="indent" >  We refer the reader to T.C. Schelling&#8217;s classic text, <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>]</span> for a fascinating
+discussion of how game theory meets the real world. A more modern reference on the
+theoretical side is given in the monograph <span class="cite">&#x00A0;[<a 
+href="#XMuthoo">Mut99</a>]</span>, which includes a thorough
+discussion of Rubinstein type games.
+  <h3 class="sectionHead"><span class="titlemark">3. </span> <a 
+ id="x1-30003"></a>Levetrage</h3>
+<!--l. 48--><p class="noindent" >When two parties are negotiating over a surplus, there is a well-defined idea in game
+theory literature of what the agreement &#8220;should&#8221; be. This is called the Nash Bargaining
+Solution (NBS). Assuming that the NBS is the result of an efficient market, any
+agreement reached other than the NBS should be considered a market inefficiency. A
+market inefficiency is an arbitrage opportunity. In this case, the intermediate currency
+used is leverage.
+<!--l. 50--><p class="indent" >  So how does one use leverage to arbitrage in this situation? In many situations,
+achieving fair market outcome requires changing the nature of the negotiation game from
+an Ultimatum game (see Example <a 
+href="#x1-8001r4">4<!--tex4ht:ref: UG --></a>, below) to a probabilistic Rubinstein type game (see
+Example <a 
+href="#x1-8003r6">6<!--tex4ht:ref: RG --></a>, below ). With access to smart contracts that execute mixed strategies, this
+becomes possible through our platform.
+<!--l. 52--><p class="indent" >  To be clear, we don&#8217;t intend to by and sell leverage directly, rather, our goal is to give
+parties the tools to speed the efficient agreement.
+<!--l. 56--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">3.1. </span> <a 
+ id="x1-40003.1"></a><span 
+class="cmbx-10">Levetrage as a Platform.</span></span>
+<!--l. 57--><p class="indent" >  The Levetrage Platform will consist of a set of tools that can be readily accessed by an
+agent wanting to improve their bargaining position and expedite the bargaining process.
+To begin, <span 
+class="cmbx-10">we provide options for making binding threats and commitments</span>.
+This will require an interface between the blockchain and the real world, but this
+interface will be much cleaner than traditional (non-smart) contracts. Next,
+<span 
+class="cmbx-10">we provide a way to implement verifiable mixed strategies: namely,</span>
+<span 
+class="cmbx-10">making binding probabilistic threats. </span>This feature will allow one party to
+minimize his exposure to an acceptable level while increasing the exposure
+of the adversary to a sufficiently unpleasant level. Along these lines, we offer
+
+tools to enact irrevocable maneuvers that result in negative consequences for
+both parties, in a way that must be taken seriously. We suggest some specific
+maneuvers.
+<!--l. 59--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">3.2. </span> <a 
+ id="x1-50003.2"></a><span 
+class="cmbx-10">Levetrage as a Service.</span></span>
+<!--l. 60--><p class="indent" >  Necessarily, the interface will be more complicated than an app. A typical user lacking
+blockchain savvy should be able to hire a professional at fairly inexpensive rate
+(compared with say, a lawyer), who would quickly interface with our platform to devise a
+working strategy that maximizes the end user&#8217;s interests. Examples of irrevocable actions
+include efforts by law firms, public relations or advertising firms. In the final picture, the
+Levetrage ecosystem will be a reputation based network of oracles, lawyers,
+actuaries, blockchain engineers, public relations firms and IoT nodes such as
+billboards.
+<!--l. 62--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">3.3. </span> <a 
+ id="x1-60003.3"></a><span 
+class="cmbx-10">Nash tokens.</span></span>
+<!--l. 63--><p class="indent" >  The platform will be monetized by use of Nash tokens. Nash token holders will receive
+the proceeds when certain contracts fail. Nash tokens will be burnt in order to perform
+&#8220;moves&#8221;. There will be a fixed number of tokens, however, the cost (in tokens) for certain
+moves will be controlled externally, to compensate for possible deflation. ETH will
+remain the underlying currency.
+  <h3 class="sectionHead"><span class="titlemark">4. </span> <a 
+ id="x1-70004"></a>Motivating Real World Problems</h3>
+  <div class="newtheorem">
+<!--l. 68--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7001r1"></a>
+<span 
+class="cmbx-10">Example 1.</span>  </span> <span 
+class="cmti-10">Mike  creates  </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">1,000,000  in  value  for  corporation  X  every  year,</span>
+<span 
+class="cmti-10">but is paid only </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">100,000. Because Mike is constrained by a unique skillset and</span>
+<span 
+class="cmti-10">geographical location, X never offers him more compensation.</span>
+  </div>
+  <div class="newtheorem">
+<!--l. 71--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7002r2"></a>
+<span 
+class="cmbx-10">Example 2.</span>  </span><span 
+class="cmti-10">Jane  pays  </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">13,000  for  a  product  from  manufacturer  X,  and  the</span>
+<span 
+class="cmti-10">product arrives dysfunctional. Jane asks for a refund, X says &#8220;Sorry. &#8221; Jane does</span>
+<span 
+class="cmti-10">some calculations and realizes that the totals costs of a lawsuit would probably exceed</span>
+<span 
+class="cmti-10">the benefits in recovering the losses, and decides not to purse such an action.</span>
+  </div>
+  <div class="newtheorem">
+<!--l. 74--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7003r3"></a>
+<span 
+class="cmbx-10">Example 3.</span>  </span> <span 
+class="cmti-10">Joe  is  sued  for  defamation  by  his  former  employer,  corporation</span>
+<span 
+class="cmti-10">X, after describing some events that Joe witnessed while employed at X. Joe&#8217;s</span>
+<span 
+class="cmti-10">descriptions  are  accurate,  and  would  eventually  be  corroborated  by  convincing</span>
+
+<span 
+class="cmti-10">evidence. However, Joe&#8217;s lawyer warns Joe that the case could take two years and</span>
+<span 
+class="cmti-10">cost </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">150,000 to resolve. Instead, X offers that Joe can pay X a </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">10,000 settlement</span>
+<span 
+class="cmti-10">and sign a non-disclosure agreement. Joe accepts this offer, rather than put forth</span>
+<span 
+class="cmti-10">the energy and money to fight this.</span>
+  </div>
+<!--l. 78--><p class="noindent" >What&#8217;s common in the above three examples is that one party is leveraging the other
+party&#8217;s rational self-interest. Exploiting the fact that each player has a relatively
+limited set of moves, <span 
+class="cmmi-10">X </span>has manipulated the game to a point where the other
+player&#8217;s best strategy is determined. This is called <span 
+class="cmti-10">subgame perfection </span>in game
+theory.
+<!--l. 80--><p class="indent" >  The problem we would like address can be summarized as &#8220;inefficiencies in adversarial
+bargaining&#8221;. We assert that if one agent is allowed to cheat, there is inefficiency. Such
+situations occur frequently in the fabric of our legal and economic systems. If a party
+with deep pockets squares off in legal dispute with a smaller party, the common
+assumption is that the advantage is with the larger party: The smaller party is
+often better advised to avoid a lengthy and expensive legal battle, even if it is a
+battle that they would most likely win. When a pyrrhic victory is compared
+with slightly unfair settlement, a rational individual may choose the unfair
+settlement. The ability of a party to arrive at unfair agreements terms distorts the
+free market and undercuts its effectiveness. An economically optimal solution
+should allow both parties equal opportunity to leverage the potential costs to the
+adversary.
+  <h3 class="sectionHead"><span class="titlemark">5. </span> <a 
+ id="x1-80005"></a>Motivating Game Theory Games</h3>
+  <div class="newtheorem">
+<!--l. 83--><p class="noindent" ><span class="head">
+<a 
+ id="x1-8001r4"></a>
+<span 
+class="cmbx-10">Example 4.</span>  </span><span 
+class="cmbxti-10">The Ultimatum Game </span><span 
+class="cmti-10">Player 1 is handed </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">100,000. He offers to</span>
+<span 
+class="cmti-10">split it (</span><span 
+class="cmmi-10">x</span><span 
+class="cmti-10">, </span>100<span 
+class="cmmi-10">,</span>000 <span 
+class="cmsy-10">- </span><span 
+class="cmmi-10">x</span><span 
+class="cmti-10">) with player 2. Player 2 accepts this split and walks away</span>
+<span 
+class="cmti-10">with </span>100<span 
+class="cmmi-10">,</span>000 <span 
+class="cmsy-10">- </span><span 
+class="cmmi-10">x</span><span 
+class="cmti-10">, or rejects it and both players walk away with none.</span>
+  </div>
+<!--l. 86--><p class="noindent" >If Player 1 offers a split of $80,000, $20,000. A rational Player 2 will probably accept the
+offer and walk away with $20,000, rather than reject it to spite player 1. In reality,
+experiments have shown that sometimes Player 2 will spite Player 1 by rejecting a low
+offer.<span class="cite">&#x00A0;[<a 
+href="#XRoth91">RPOFZ91</a>]</span>
+<!--l. 88--><p class="indent" >  For comparison, we point out a less rigid version of the game.
+  <div class="newtheorem">
+<!--l. 89--><p class="noindent" ><span class="head">
+<a 
+ id="x1-8002r5"></a>
+<span 
+class="cmbx-10">Example 5.</span>  </span><span 
+class="cmbxti-10">The Negotiation Game </span><span 
+class="cmti-10">Player 1 and Player 2 must come to an</span>
+<span 
+class="cmti-10">agreement on how to split </span><span 
+class="cmsl-10">$</span><span 
+class="cmti-10">100,000, or each gets none. Either player can walk away</span>
+<span 
+class="cmti-10">from the game at any time. This is the only rule.</span>
+  </div>
+  <div class="newtheorem">
+<!--l. 96--><p class="noindent" ><span class="head">
+<a 
+ id="x1-8003r6"></a>
+
+<span 
+class="cmbx-10">Example 6.</span>  </span><span 
+class="cmbxti-10">Rubinstein Type Game, Probabilistic Version </span><span 
+class="cmti-10">Player 1 offers</span>
+<span 
+class="cmti-10">a split, and a probability </span><span 
+class="cmmi-10">p</span><span 
+class="cmti-10">. With probability </span><span 
+class="cmmi-10">p </span><span 
+class="cmti-10">the game proceeds, and Player 2 is</span>
+<span 
+class="cmti-10">offered to accept the split, or reject it. If Player 2 rejects it, then Player 2 can propose</span>
+<span 
+class="cmti-10">a counter offer, and a probability. At each step the game has some probability of</span>
+<span 
+class="cmti-10">terminating which each player receiving none.</span>
+  </div>
+  <h3 class="sectionHead"><span class="titlemark">6. </span> <a 
+ id="x1-90006"></a>Dividing a surplus and the Nash Bargaining Solution</h3>
+<!--l. 104--><p class="noindent" >What should the fair arrangement be? Egalitarian principles dictate that the surplus
+should be shared, and a belief in free market competition suggests this too: unless one
+party has demonstrated it is better suited to control a resource, sharing a divisible
+resource promotes competition. The Nash bargaining solution <span class="cite">&#x00A0;[<a 
+href="#XNash53">Nas53</a>]</span> agrees:
+the surplus should be split down the middle when the players are on equal
+footing.
+<!--l. 105--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">6.1. </span> <a 
+ id="x1-100006.1"></a><span 
+class="cmbx-10">Axiomatic approach.</span></span>
+<!--l. 106--><p class="indent" >  Nash <span class="cite">&#x00A0;[<a 
+href="#XNash53">Nas53</a>]</span> studied the problem of bargaining using an axiomatic approach, and
+characterized equilibria. Given a set of axioms (which are probably not realistic) Nash
+determined that the best solution was to find the value <span 
+class="cmmi-10">x </span>that maximizes the
+function
+  <table 
+class="equation"><tr><td><a 
+ id="x1-10001r1"></a>
+  <center class="math-display" >
+<img 
+src="wp10x.png" alt="(u1(x) - d1)(u2(x )- d2)
+" class="math-display" ></center></td><td class="equation-label">(1)</td></tr></table>
+<!--l. 107--><p class="nopar" >
+where <span 
+class="cmmi-10">u</span><sub><span 
+class="cmr-7">1</span></sub> and <span 
+class="cmmi-10">u</span><sub><span 
+class="cmr-7">2</span></sub> are the utilities enjoyed from a particular agreement by Players 1 and 2,
+respectively, over a set of possible agreements <span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="msbm-10">A</span>, while <span 
+class="cmmi-10">d</span><sub><span 
+class="cmr-7">1</span></sub> and <span 
+class="cmmi-10">d</span><sub><span 
+class="cmr-7">2</span></sub> are the utilities
+gained if the negotiation fails. For example, in the ultimatum game, Example <a 
+href="#x1-8001r4">4<!--tex4ht:ref: UG --></a>,
+the disagreement point <span 
+class="cmmi-10">d </span>= (<span 
+class="cmmi-10">d</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">,d</span><sub><span 
+class="cmr-7">2</span></sub>) is (0<span 
+class="cmmi-10">,</span>0): That is, if they disagree, each
+player gets nothing. Nash&#8217;s axioms included symmetry: Except for the very
+important question of who offers first, Example <a 
+href="#x1-8001r4">4<!--tex4ht:ref: UG --></a> is symmetric between the two
+players.
+<!--l. 110--><p class="indent" >  Nash&#8217;s axioms also included translation invariance. The solution should not depend on
+where the disagreement points lies on the plane, but where it lies with respect to the
+other possible agreement points. For example, if both players are charged $50,000 to play
+the game (making it zero sum), the negotiations should be the same: Each
+player should be equally averse to losing $50,000 as they are keen to gaining
+same.
+
+<!--l. 112--><p class="indent" >  Note however, that if Player 2 could raise his own disagreement value <span 
+class="cmmi-10">d</span><sub><span 
+class="cmr-7">2</span></sub>, this would
+alter the location where the maximum occurs in (<a 
+href="#x1-10001r1">1<!--tex4ht:ref: NBE --></a>). We propose a way to do this in
+section <a 
+href="#x1-120007">7<!--tex4ht:ref: commit --></a>.
+<!--l. 117--><p class="indent" >  In Example <a 
+href="#x1-7001r1">1<!--tex4ht:ref: Mike --></a>, the idea of fair market value of Mike&#8217;s effort is not so clear, because the
+market is not stepping in to narrow the surplus. If a competitor to X were
+to move down the street from X, Mike with his unique skill-set could spark a
+bidding war, and find his effort is suddenly worth several times more. Even
+without a competitor, we can view Mike&#8217;s situation as an either an Ultimatum
+Game (Example <a 
+href="#x1-8001r4">4<!--tex4ht:ref: UG --></a>) in the case that X gives Mike a &#8220;take-it-or-leave-it&#8220; offer, or
+as a Negotiation Game (Example <a 
+href="#x1-8002r5">5<!--tex4ht:ref: NG --></a>) in the case that Mike feels empowered
+to negotiate. We assume that Mike, with his work ethic and skill-set, could
+earn $100,000 at another position in another industry if he left X. So Mike&#8217;s
+disagreement value is $100,000, while X&#8217;s disagreement value would be the
+maximum of 0 or $1,000,000 minus the cost of finding and training a suitable
+replacement for Mike, minus any other losses incurred in the process. If we assume X&#8217;s
+disagreement value is 0, then maximizing (<a 
+href="#x1-10001r1">1<!--tex4ht:ref: NBE --></a>) one concludes that Mike could be making
+$550,000.
+<!--l. 119--><p class="indent" >  In reality, one would not expect Mike to negotiate such a payraise. In many industries,
+employees who want a raise are often best advised to walk into their manager&#8217;s office
+with an outside offer. This leads to the inefficient practice of raise-deserving
+employees applying for jobs with companies at which they are not interested in
+working.
+<!--l. 121--><p class="indent" >  In comparison, the disputes in the other two examples appear to be not over a
+surplus, but over negative consequences resulting from litigation. However, if we accept
+translation invariance of the problem, this is a matter of perspective: In Example <a 
+href="#x1-7002r2">2<!--tex4ht:ref: Jane --></a>, one
+can set the disagreement point to be the costs to both parties after a long and expensive
+and possibly public lawsuit. To explore this situation further, let&#8217;s assume that both
+parties understand that a legal action will most likely end with Jane being
+refunded. Both parties also know that it will be easy for lawyers to obfuscate long
+enough to make the case significantly painful to prosecute. In this particular
+jurisdiction it is likely that the court may only award Jane a portion of legal fees.
+So for the sake of making up numbers, Jane can expect to gain the $13,000
+difference, but possibly incur $25,000 of legal fees, of which only $10,000 will
+may be reimbursed. On the other hand, X will expect pay perhaps $30,000
+for legal fees, pay a $13,000 reimbursement, $10,000 in Jane&#8217;s legal fees, and
+in addition may lose $50,000 in profits as sales drop due to bad publicity. So
+Jane stands to lose $2,000, while X stands to lose $100,000. The disagreement
+point is then (<span 
+class="cmsy-10">-</span>$2<span 
+class="cmmi-10">,</span>000<span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">-</span>$100<span 
+class="cmmi-10">,</span>000) and set of possible agreements <span 
+class="msbm-10">A </span>should be
+the set of partial or complete refunds given to Jane instead of going to trial.
+Simple calculus determines that the maximum of (<a 
+href="#x1-10001r1">1<!--tex4ht:ref: NBE --></a>) occurs on the far endpoint:
+Jane should get her full refund. Intuitively, this is obvious, the incentives of
+coming to a settlement are clearly much more compelling for X than for Jane. If
+Jane threatens to sue, and she can be taken credibly, X will immediately make
+the payment. The problem is that they have no reason to take such a threat
+credibly . They are certain Jane will not sue; as for her, the decision is a net
+negative.
+<!--l. 123--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">6.2. </span> <a 
+ id="x1-110006.2"></a><span 
+class="cmbx-10">Strategic Approach.</span></span>
+<!--l. 125--><p class="indent" >  In 1982, by introducing discounting, Rubinstein devised a game that would force the
+
+players to come to a solution early on in the negotiation stages. There a two ways to do
+the discounting: Assume that time is costly to both parties, or assume that there is some
+probability at each time that the negotiations could fail. In either case, Player 1 should
+be able to make an optimal offer that will immediately be accepted by Player 2. In some
+versions of the game, the players do not control probability <span 
+class="cmmi-10">p </span>that the game will
+continue. If <span 
+class="cmmi-10">p &#x003C;&#x003C; </span>1, Player 1 will have higher expectation than Player 2, however,
+this probability will be less than 1<span 
+class="cmmi-10">&#x2215;</span>2. If Player 1 can choose the probability <span 
+class="cmmi-10">p</span>,
+then Player 1 should choose is as close to 1 as possible, and then offer 1<span 
+class="cmmi-10">&#x2215;</span>2.
+It follows that as <span 
+class="cmmi-10">p </span><span 
+class="cmsy-10">&#x2192; </span>1, the expected outcome is again the Nash Bargaining
+Solution.
+<!--l. 127--><p class="indent" >  For a satisfying probabilistic explanation, see <span class="cite">&#x00A0;[<a 
+href="#XMuthoo">Mut99</a>]</span>[Definition 2.2] where one can
+see that if both players have the ability to choose the probability of breakdown, the Nash
+solution will be expected.
+  <div class="newtheorem">
+<!--l. 129--><p class="noindent" ><span class="head">
+<a 
+ id="x1-11001r1"></a>
+<span 
+class="cmbx-10">Principle 1.</span>  </span><span 
+class="cmti-10">If players are allowed to determine the probability that the negotiation</span>
+<span 
+class="cmti-10">will break down, then the players should come to a fair agreement very quickly.</span>
+  </div>
+<!--l. 133--><p class="indent" >  Up until recently, it was thought that the above is not a realistic expectation in real
+world applications. For example, we quote from 2011 discussion of Rubinstein&#8217;s game
+<span class="cite">&#x00A0;[<a 
+href="#XBA2011">AB11</a>]</span>:
+       <!--l. 135--><p class="indent" >    The  presence  of  Nature&#8217;s  choice  in  that  procedure  is  very
+       appealing. It points out the possibility that a relationship may end
+       after a failure to reach an agreement with some probability. But
+       the fact that this probability is determined by one of the players
+       may not be deemed very realistic.
+<!--l. 140--><p class="noindent" >We attempt to provide partial answers to this in the sequel.
+  <h3 class="sectionHead"><span class="titlemark">7. </span> <a 
+ id="x1-120007"></a>creating commitment</h3>
+<!--l. 144--><p class="noindent" >Before delving into probabilistic strategies, we explore the basic maneuver of moving the
+disagreement point by creating commitment. We encourage the reader to see that classic
+textbook by Schelling for a more verbose and interesting discussion of the various topics
+discussed here. Paraphrasing Schelling&#8217;s definition of commitment: <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>]</span>[pg 127], we
+say that commitment involves maneuvers that leave one in a position so that their only
+rational option is follow through with a threat. The object of commitment is the
+credibility of a threat. We will allow Nash to introduce the issues involving threats
+<span class="cite">&#x00A0;[<a 
+href="#XNash53">Nas53</a>,&#x00A0;pg 130]</span>:
+       <!--l. 146--><p class="indent" >    If one considers the process of making a threat, one sees that
+       its elements are as follows: A threatens B by convincing B that if
+       B does not act in compliance with A&#8217;s demands, the A will follow
+       a certain policy T. Suppose A and B to be rational beings, it is
+       essential for the success of the threat that A be <span 
+class="cmti-10">compelled </span>to carry
+
+       out his threat T if B fails to comply. Otherwise it will have little
+       meaning. For, in general, to execute the threat will not be something
+       A would want to do, just of itself. The point of this discussion is
+       that we must assume there is an adequate mechanism for forcing
+       players to stick to their threats and demands once made: and one
+       to enforce the bargain, once agreed. Thus we need a sort of umpire,
+       who will enforce contracts of commitments.
+<!--l. 151--><p class="indent" >  What Jane needs in Example <a 
+href="#x1-7002r2">2<!--tex4ht:ref: Jane --></a> is the ability to make binding threats. We propose one
+here. Jane takes $10,000 in ETH, deposits it to an address and creates the following
+contract. In 30 days, the contract will read a channel that by default is broadcasting
+&#8217;Unfulfilled&#8217;. If after 30 days, the channel is broadcasting &#8217;Fulfilled&#8217;, Jane gets her
+money back. If not, the ETH will be distributed to holders of Nash coins, lost to
+Jane forever. The channel is controlled by a well-reputed oracle who Jane has
+commissioned to toggle the channel only in the condition Jane presents the oracle with
+either a $13,000 check from X, or, a court copy of a civil action filed against
+X.
+<!--l. 153--><p class="indent" >  Now, the tables have turned. Jane contacts X, and tells them that she is not merely
+threatening a lawsuit, but that it is now against her interest to fail to file the lawsuit.
+She explains to X how it works, and hands them a copy of the arrangement she has made
+with the oracle. At this point, X is wise to assume that Jane is not bluffing. If X is
+rational X will pay her immediately.
+<!--l. 155--><p class="indent" >  The game is not completely set, however, as there are other moves that X may be able
+to make. For example, if they are also blockchain savvy, they may be able to create
+imaginative responses. Such a response may bind them to not pay, unless $5000 is
+deposited into an address. If they are able to communicate this to Jane, they have
+created a way out for Jane, which rationally, she should accept. She could respond
+with a counter-commitment, and this could go on. The best way for Jane to
+preclude counter offers is to go off the grid, and leave the oracle to collect the
+check.
+<!--l. 161--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">7.1. </span> <a 
+ id="x1-130007.1"></a><span 
+class="cmbx-10">Comparison with &#8217;classical&#8217; contracts.</span></span>
+<!--l. 162--><p class="indent" >  Implementing a legal contract accomplishing the above would be more problematic.
+Technically, the code that receives a broadcast signal and either refunds or distributes
+Jane&#8217;s money is not a legal contract. It&#8217;s a piece of code. (If there is a &#8220;meeting of the
+minds&#8221; it is between Nash token holders and Jane, but we do not argue that here.) So it
+doesn&#8217;t require all parties to give considerations. Nor is there a question of jurisdiction,
+or enforceability by a court. It simply happens. The arrangement between Jane and the
+oracle is quite simple. If Jane were to try and devise the same contract in real life, she
+would deposit the money in escrow, but in theory, would be able to sue to get the
+money, arguing in a court that the original arrangement did not constitute
+an enforceable agreement. The escrow transaction is reversible, and a court
+may order this. Her adversary, if well advised, would probably be aware of
+this.
+<!--l. 163--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">7.2. </span> <a 
+ id="x1-140007.2"></a><span 
+class="cmbx-10">Possible Conflicts of Interest.</span></span>
+<!--l. 164--><p class="indent" >  By default, the oracle does nothing. The oracle has a reputation to uphold, so is
+happy to simply key the correct outcome. However, in theory, the oracle could offer to
+toggle the channel for a mere $500. This possibility is unfortunately hard to eradicate
+completely. We hope that the cost to the oracle of losing their reputation is significant
+
+enough to avoid this possibility. It is worth pointing out that, in order for this to work,
+what matters is not the scruples of the oracle, but rather, that X believe the
+oracle is scrupulous. X must consider the most likely possibility that the oracle
+is scrupulous and cannot count on Jane and the oracle colluding to change
+this.
+<!--l. 166--><p class="indent" >  Nonetheless, we would prefer an arrangement that doesn&#8217;t offer any room for
+dishonesty.
+<!--l. 167--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">7.3. </span> <a 
+ id="x1-150007.3"></a><span 
+class="cmbx-10">Commitment Can Backfire.</span></span>
+<!--l. 168--><p class="indent" >  In the example in this section, Jane has no way out. This is by design. However, if her
+adversary is stubborn, vindictive, not thinking clearly or simply unable to wrap their
+mind around the concept of a smart contract, Jane may have made a bad decision. Jane
+does not know ahead of time the probability that this will happen, however,
+she may be able to estimate it. If the probability that X is going to proceed
+irrationally is greater than a certain threshold, Jane is wise not to proceed. In
+the following section we offer a way to minimize the risk when the adversary
+has a possibility of being irrational, while still taking advantage of available
+leverage.
+  <h3 class="sectionHead"><span class="titlemark">8. </span> <a 
+ id="x1-160008"></a>Mixed Strategies</h3>
+<!--l. 171--><p class="noindent" >In game theory, a mixed strategy is a strategy that has a random component. For
+example, a soccer player making penalty kicks may be a better shot kicking to her left.
+However, if she always kicks to her left, the goalkeeper will anticipate this. The shooter
+should devise a plan to kick, say 60% of shots to her left: This will not allow the goalie to
+anticipate the shot, but still allows her to use her better shot more often than not. The
+idea goes back to Von Neumann in 1928 <span class="cite">&#x00A0;[<a 
+href="#XNeumann1928">Neu28</a>]</span>, in his proof of a famous theorem
+stating that all <span 
+class="cmmi-10">N </span>player games enjoy Nash equilibria, provided that players are allowed
+mixed strategies. Intuitively, by asserting a small probability of a move that will be
+damaging to the opponent, one can change the opponents strategy entirely, even without
+committing to the move. By using all probabilities in between 0 and 1, one can solve an
+optimization problem - maximizing the opponents exposure while minimizing one&#8217;s
+own.
+<!--l. 175--><p class="indent" >  We begin with a slight mix of game theory and its interactions with the real world.
+Suppose that Players 1 and 2 are playing the Negotiation Game (Example <a 
+href="#x1-8002r5">5<!--tex4ht:ref: NG --></a>), but Player
+1 is impatient. Player 1 decides to makes an offer to split the pot down the middle, and
+then adds that if the offer is not accepted Player 1 will terminate the game
+and walk away. This threat becomes useful only if Player 2 receives the threat,
+believes the threat, and is willing to act rationally upon it. However, Player 1 is
+not 100% confident that Player 2 will respond: The threat may not have been
+received credibly, or was not received at all. So there is risk to Player 1 that the
+strategy will backfire. Player 1 wants to minimize the risk of walking away with
+nothing.
+<!--l. 180--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">8.1. </span> <a 
+ id="x1-170008.1"></a><span 
+class="cmbx-10">Jane&#8217;s example, again.</span></span>
+<!--l. 182--><p class="indent" >  Jane would like a way to create a commitment that will hold with some probability.
+She devises the following. Again, she takes $10,000 and deposits it to an address. She sets
+a broadcast to &#8220;tick-tock.&#8221; Each day the contract checks the broadcast. If the channel is
+broadcasting &#8220;tick-tock&#8220; the contract chooses a random number between 1 and 100. If
+that number is larger than 95, the contract takes the money and deposits it as a
+
+non-refundable retainer in an account held by law firm Y. Jane has signed a retainer
+agreement with Law firm Y. Their agreement is that, as soon as they receive a
+payment from Jane, they immediately begin filing a civil action against X and
+will deliver 40 hours of billed work for Jane on this case. Jane presents this
+arrangement to X. Assuming that commencing the lawsuit will result in losses to
+both parties as described above, each day, the expected cost to Jane should be
+0<span 
+class="cmmi-10">.</span>05 <span 
+class="cmsy-10">&#x00D7;-</span>$2<span 
+class="cmmi-10">,</span>000 = <span 
+class="cmsy-10">-</span>$100. This is not a dear price to pay to show X that she
+is serious. Meanwhile the expected cost to X from this arrangement will be
+0<span 
+class="cmmi-10">.</span>05 <span 
+class="cmsy-10">&#x00D7;-</span>$100<span 
+class="cmmi-10">,</span>000 = <span 
+class="cmsy-10">-</span>$5<span 
+class="cmmi-10">,</span>000. This is much more significant, and should be taken
+seriously. Jane can leave this event to chance for several days or weeks - until she
+determines that there is no further value in doing this. Of course, in the process she may
+end up filing a lawsuit. But she can bound the probability of this event from
+above.
+<!--l. 185--><p class="indent" >  In comparison, consider the following hypothetical discussed by Schelling <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>,&#x00A0;pg
+196]</span>: A hitchhiker pulls a gun on a driver. The driver responds that he will crash the
+vehicle, killing both, unless the hitchhiker tosses the gun out the window. The
+hitchhiker finds this threat irrational and continues to make demands on the
+driver. So the driver begins to accelerate. At 120 miles per hour, the hitchhiker
+must realize that the probability of a fatal accident is now very much a positive
+number.
+<!--l. 187--><p class="indent" >  The hitchhiker situation is similar in some aspects, but economically much
+different. Indeed, both the hitchhiker and the driver stand to lose their lives. The
+driver (who may have a respectable job, and a family) likely has more to lose
+than a hitchhiker who is robbing kind strangers. If the hitchhiker realizes this,
+the hitchhiker is smart to keep the weapon cocked. The driver is making an
+irrational decision to drive recklessly and will eventually slow the car. On the
+other hand, Jane has much less to lose. The company X, which is (in theory)
+motivated my money, will not be interested in playing this game for long. This the
+major element that she is leveraging, and why her strategy should work if X is
+rational.
+<!--l. 189--><p class="indent" >  However, Schelling&#8217;s point is summarized &#8220;the only way to becoming physically
+committed to an action is to initiate it&#8221;. When Jane posts and allows a contract to be
+executed, she is doing precisely that.
+<!--l. 192--><p class="indent" >  Schelling describes mixed strategies as a tool &#8220;scale down&#8221; the threat <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>,&#x00A0;pg
+178-179]</span>. This accounts for the possibility that a threat may be ignored: The threat was
+not communicated, the threat was miscommunicated, or the adversary may have a
+nature which ignores the threat (i.e. the scorpion who stings the frog, ushering in his own
+watery death), the adversary is playing a &#8220;long game&#8221; and is trying to create an illusion
+of irrationality, or other unforeseen reasons. In fact, if one has a reasonable guess at the
+probability that a threat will fails for unknown reasons, and also has a guess at how high
+of probability needs to be to form an effective threat, one can compute a range
+of probabilities that will be useful. Using the calculus in <span class="cite">&#x00A0;[<a 
+href="#XSchelling1960">Sch60</a>,&#x00A0;pg. 180]</span> it
+may be that the only threats worth making involve probabilities in a small
+interval.
+  <h3 class="sectionHead"><span class="titlemark">9. </span> <a 
+ id="x1-180009"></a>The Hornet&#8217;s Nest Piñata</h3>
+<!--l. 195--><p class="noindent" >Often in litigation, the party with the smaller bankroll will be advised not to &#8221;kick the
+hornet&#8217;s nest.&#8220; Lawyers tell clients that the adversary is exceeding mean and will &#8220;scorch
+the earth&#8220; when they become angered. For this reason, litigants are often told not to
+
+speak to the press or anyone about a particular case, in order to maintain the possibility
+of a merely mildly uncomfortable settlement. This essentially allows the manipulative
+party to keep their thumb on the smaller party while grinding out a campaign of
+attrition.
+<!--l. 197--><p class="indent" >  Companies and individuals are very reluctant to engage a public opinion battle.
+Lawyers are typically not social media savvy, and would like to keep the fight in their
+own domain. Thus the adversary can often rely on lawyers to counsel their clients to keep
+the dispute within the legal system where the lawyers have control. On the other hand, a
+battle fought in the press or over social media is unpredictable and can be devastating.
+For this reason, going public can be the ultimate act of kicking the hornet&#8217;s
+nest. This is a clear threat that an individual facing down a bully can make.
+However, going to the press is irrevocable so the bully can often rest assured: The
+weaker party knows the consequences of crossing the line and will never do
+it.
+<!--l. 199--><p class="indent" >  This is where the option of a mixed strategy is most attractive: A litigant can commit
+to crossing this line, without actually crossing it.
+<!--l. 201--><p class="indent" >  Consider Example <a 
+href="#x1-7003r3">3<!--tex4ht:ref: Joe --></a>. Frustrated at being silenced, Joe is tempted to tell his story even
+louder, but his attorney tells Joe : Pay up and move on, don&#8217;t kick the hornet&#8217;s nest. We
+would like offer Joe an option. Joe collects the documents, a list of corroborating
+witnesses, his own juicy account of the story, and a copy of the SLAPP complaint. Joe
+places this all in an envelope and contacts a public relations firm A. Joe signs an
+agreement with A: &#8220;If I deposit $5000 in your account, you are to spend $5000
+publicizing this story. If I do not deposit $5000 within two months, destroy the
+envelope.&#8220; Then Joe sets up a smart contract similar to Jane&#8217;s, a probability of 5% per
+day of triggering the event. If the wrong number comes up, the hornet&#8217;s nest is
+irrevocably blown apart. If the lawyers are to be believed, both sides are in for a long
+and ugly battle, yet a battle that Joe will eventually win and cause heavy losses to
+X.
+<!--l. 203--><p class="indent" >  We feel that this is the key use case of Levetrage. Going to the press, or even further,
+hiring a PR firm, is a very damaging escalation, and as such can be one of the most
+powerful threats. Notice that this can be applied in either of the other two
+examples: Paying a PR firm to blast the company will cost Jane, but will hurt X
+much worse, even if neither party involves a court. So instead of a lawsuit,
+Jane could simply threaten to launch a $2500 publicity campaign against the
+company with probability <span 
+class="cmmi-10">p. </span>In Mike&#8217;s case, publicly badmouthing his employer
+would certainly cause them to part ways and cause them both great damage.
+(Of course, Mike might want to consider how this would appear to any future
+employer.)
+<!--l. 206--><p class="indent" >  In practice, there are a number of ways to spread damaging information.
+Renting a billboard is now easy. SEO firms can blanket the internet with social
+media posts. It is also worth suggesting that the Levetrage network itself can be
+used to spread a story quickly. By raising the specter of a Levetrage-centered
+negative publicity campaign, the prominence of the network increases and , the
+network becomes more valuable. So there is incentive to coin holders all over the
+world to spread the news and assist whenever a negative publicity campaign is
+launched.
+  <h3 class="sectionHead"><span class="titlemark">10. </span> <a 
+ id="x1-1900010"></a>platform summary</h3>
+<!--l. 210--><p class="noindent" >To begin, we offer a bare bones specification. The three fundamental components are as
+
+follows.
+<!--l. 212--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">10.1. </span> <a 
+ id="x1-2000010.1"></a><span 
+class="cmbx-10">On Chain Contracts.</span></span>
+<!--l. 214--><p class="indent" >  Each contract will consist of
+         <ul class="itemize1">
+       <li class="itemize">A list of addresses who can terminate the contract
+         </li>
+       <li class="itemize">An action to perform upon termination
+         </li>
+       <li class="itemize">A time duration when the contract is valid
+         </li>
+       <li class="itemize">An action taken when the the contract times out
+         </li>
+       <li class="itemize">An irrevocable escalation event .</li></ul>
+<!--l. 219--><p class="indent" >  We comment on these in turn:
+         <ul class="itemize1">
+       <li class="itemize">The address list can be the user who created it, or an oracle, if the end user
+       wants to take the matter out of her hands in order to create commitment.
+         </li>
+       <li class="itemize">One example of an action upon termination is to return a specified amount
+       of funds to a user who deposited them.
+         </li>
+       <li class="itemize">Contracts shouldn&#8217;t run forever.
+         </li>
+       <li class="itemize">The expiration can be either a neutral action or an irrevocable action, or
+       could refer to a random event.
+         </li>
+       <li class="itemize">The irrevocable escalation will typically be depositing ETH into a third
+       account. It is assumed that the end user has already set up a legal contract
+       (see below) such that this deposit triggers a real world action.</li></ul>
+<!--l. 229--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">10.2. </span> <a 
+ id="x1-2100010.2"></a><span 
+class="cmbx-10">Legal Contracts.</span></span>
+<!--l. 230--><p class="indent" >  The typical <span 
+class="cmti-10">legal contract </span>should be a simple agreement between an end user and a
+service provider. The contract is signed and agreed upon, but it will be considered
+executed upon delivery of funds to a certain address. Upon execution, the service
+provider will provide their service as agreed upon in the contract. This could
+be publicity, legal services, or any other legal purpose. In the end product,
+these contracts will be templated and are expected to by enforceable in most
+jurisdictions.
+<!--l. 234--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">10.3. </span> <a 
+ id="x1-2200010.3"></a><span 
+class="cmbx-10">Random Events.</span></span>
+<!--l. 234--><p class="indent" >  A random beacon is called, and from this an event is chosen. Typically this choice can
+be between a neutral event (do nothing, leave the contract in place), an hawkish
+escalation event, or a dovish termination type event.
+<!--l. 236--><p class="indent" >  Note that publicly observable randomness is an interesting open problem. Due to the
+decentralized nature of blockchains, future blocks are extremely hard to predict. The
+question of whether the hash of a future block can be manipulated has been studied in
+
+<span class="cite">&#x00A0;[<a 
+href="#XBCG">BCG15</a>]</span> and <span class="cite">&#x00A0;[<a 
+href="#XPW16">PW16</a>]</span> where it is shown that some small influence may be
+bought for a very high price, but this must be done by bribing some portion
+of the mining pool. We feel such an attack would be extremely impractical.
+When designing a contract, it should be easy to require enough randomness to
+financially disincentivize any such attack. By simply hashing a future block, we
+should be able convince any observer that the hash will be impossible to predict,
+at least enough to create the effect of mixed strategies. Another option is to
+provide an oracle that hashes our secret code with an externally generated (and
+generally trusted) beacon such as NIST Randomness Beacon <span class="cite">&#x00A0;[<a 
+href="#XNIST">NIS11</a>]</span>. Again, the
+only real objective is to refer to a beacon that any adversary will believe is
+unmalleable.
+<!--l. 239--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">10.4. </span> <a 
+ id="x1-2300010.4"></a><span 
+class="cmbx-10">Remarks.</span></span>
+<!--l. 240--><p class="indent" >  The on chain contracts are public. The off chain contracts are not, by default, but an
+end user may choose to make them public. The end user may also specify that the
+deposit to the service provider must come from a specified account - otherwise a
+anonymous prankster could trigger the event himself. This may be something that the
+user may use as leverage: The possibility that there may be other parties who are willing
+to finance actions detrimental to the adversary.
+  <h3 class="sectionHead"><span class="titlemark">11. </span> <a 
+ id="x1-2400011"></a>Advantages of the Blockchain Platform</h3>
+<!--l. 244--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">11.1. </span> <a 
+ id="x1-2500011.1"></a><span 
+class="cmbx-10">Smart Contracts.</span></span>
+<!--l. 245--><p class="indent" >  Smart contracts are executed without any enforcement or intervention by
+courts.
+<!--l. 246--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">11.2. </span> <a 
+ id="x1-2600011.2"></a><span 
+class="cmbx-10">Decentralization.</span></span>
+<!--l. 246--><p class="indent" >  As we may deal with potential legal situations involving litigious characters, there is
+safety in being decentralized. If the platform is successful, we will inevitable thwart a
+vexatious bully in his attempt to abuse the legal system. The typical reaction
+of a vexatious bully is become even more litigious, but they will find in very
+difficult to punish an anonymous global network with scorched earth lawsuits.
+If this were all run as a single entity, it would easy to target with frivolous
+lawsuits.
+<!--l. 248--><p class="indent" >  Another aspect of decentralization is the each member of the network has its own
+vested interest in the welfare of the network. This gives a natural way to publicize the
+network, and can amplify its effects.
+<!--l. 249--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">11.3. </span> <a 
+ id="x1-2700011.3"></a><span 
+class="cmbx-10">Verifiable Randomness.</span></span>
+<!--l. 249--><p class="indent" >  In either of the methods to obtain randomness above, the randomness can be trusted
+and is essentially free.
+<!--l. 250--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">11.4. </span> <a 
+ id="x1-2800011.4"></a><span 
+class="cmbx-10">Credible Ledger of Past Events.</span></span>
+<!--l. 251--><p class="indent" >  Each action will involve a Nash token, so will be tracked. Thus, a public record of all
+outcomes will be available. Researchers will be able to predict and study the effectiveness
+of different strategies, and this may lead to even more efficient procedures. Accordingly,
+Levetrage service providers (oracles, publicists, law firms) can gain reputation by
+developing a track record. Players new to the ecosystem will be easily able to
+search all past events and outcomes and contact the providers that are best
+
+fit.
+<!--l. 253--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">11.5. </span> <a 
+ id="x1-2900011.5"></a><span 
+class="cmbx-10">Branding.</span></span>
+<!--l. 253--><p class="indent" >  We hope that the Levetrage network will become a brand name, with first mover
+recognition. While in theory, someone could write any of the same code into any
+blockchain, their adversary may not know to take it seriously.
+<!--l. 254--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">11.6. </span> <a 
+ id="x1-3000011.6"></a><span 
+class="cmbx-10">Ability to add new moves and products.</span></span>
+<!--l. 254--><p class="indent" >  We plan to provide the basic vehicles for commitments. However, it should be rather
+easy for other blockchain users to develop layers on top of the platform that are more
+creative or tailored to their unique situations that may arise. In any case, we won&#8217;t be
+able to stop them.
+  <h3 class="sectionHead"><span class="titlemark">12. </span> <a 
+ id="x1-3100012"></a>Other Use Cases</h3>
+<!--l. 257--><p class="noindent" >The following use cases are more involved but maybe be possible if the network is more
+developed.
+<!--l. 259--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">12.1. </span> <a 
+ id="x1-3200012.1"></a><span 
+class="cmbx-10">Ad Hoc Consumer Organization.</span></span>
+<!--l. 260--><p class="indent" >  Consumers with a common interest (say pricing gouging by a cable provider) can pool
+payments in order to negotiate fair customer relations.
+<!--l. 261--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">12.2. </span> <a 
+ id="x1-3300012.2"></a><span 
+class="cmbx-10">Ad Hoc Labor Organization.</span></span>
+<!--l. 262--><p class="indent" >  In the gig economy, entire industries can form in short periods of time. Corporations
+can devise agreements that would not be acceptable in traditional company-worker
+relationships. Mixed strategy contracts that are activated when a certain number of users
+sign up can force negotiation. This may require some yet-to-be developed enforcement
+mechanisms.
+<!--l. 263--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">12.3. </span> <a 
+ id="x1-3400012.3"></a><span 
+class="cmbx-10">Whistleblowing.</span></span>
+<!--l. 264--><p class="indent" >  Employees may threaten (anonymously) to report (non-anonymously) practices that
+the employee would like stopped. For example, in many states, the board regulating an
+industry will not accept anonymous reports. Thus a credible threat can be made
+anonymously. Remark: We are not lawyers, but have reason to believe that
+if the activity is criminal in nature, it is not legally permitted to use this as
+leverage.
+<!--l. 267--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">12.4. </span> <a 
+ id="x1-3500012.4"></a><span 
+class="cmbx-10">Reputation Based Commitment.</span></span>
+<!--l. 268--><p class="indent" >  This is a slightly different nature, as it involves repeated games. In many cases, a
+committing maneuver maybe difficult to implement. However, if one has a reputation to
+uphold, then failing to follow through results in forfeiting the reputation. The platform
+could allow a business or individuals to make threats or promises (including probabilistic
+ones), and then maintain a record of whether these were fulfilled (provided verifying such
+this is easy to do.) This is similar to the idea of a credit score; Lenders believe you will
+pay off your loan based on your history of repaying loans. Promises such as &#8220;If Trump
+wins, I move to Canada&#8221; can then be used to malign credibility if not followed
+through.
+
+<!--l. 270--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">12.5. </span> <a 
+ id="x1-3600012.5"></a><span 
+class="cmbx-10">Litigation Financing.</span></span>
+<!--l. 270--><p class="indent" >  Pie-in-the-sky for now, but with minimal imagination, one can see that by combining
+litigation threats as discussed above with crowd financing, some very interesting
+scenarios arise. Many of the scenarios are desirable, although with a little imagination,
+one can conjure up some that aren&#8217;t.
+  <h3 class="sectionHead"><span class="titlemark">13. </span> <a 
+ id="x1-3700013"></a>Other Issues </h3>
+<!--l. 273--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">13.1. </span> <a 
+ id="x1-3800013.1"></a><span 
+class="cmbx-10">Asymmetric Information and Belief.</span></span>
+<!--l. 275--><p class="indent" >  Game theory is a very tough subject to obtain complete results in, especially when
+applying these to the real world. This is particularly the case when players have differing
+ideas and beliefs about the expectations surrounding their conflict. In this case, players
+can make strong moves either out of desire to bluff or out of legitimate belief that they
+are offering the best offer. The adversary has no way to determine if an offer is a
+bluff or not. These sort of infinite horizon games with asymmetric information
+are hard to predict. If the expectations are far apart, a Rubinstein game can
+lead to a series of offers which will not be accepted. Nonetheless, it should be
+possible that some of the tools may be used in a way that will expedite solution
+reaching.
+<!--l. 277--><p class="indent" >  &#x00A0;
+<!--l. 278--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">13.2. </span> <a 
+ id="x1-3900013.2"></a><span 
+class="cmbx-10">Repeated Games.</span></span>
+<!--l. 279--><p class="indent" >  Some players always make an choice that is irrational in the near future, but is
+motivated by the idea that they will face similar challenges in the future. In some
+industries, pissing contests are normal. Certain entities may scare off challengers by
+demonstrating that they are willing to accept losses in order to maintain a tough position
+in the future. In such cases, there may be no rational move that player can
+make.
+  <h3 class="sectionHead"><span class="titlemark">14. </span> <a 
+ id="x1-4000014"></a>Future Efforts and Needs</h3>
+<!--l. 312--><p class="noindent" >This project is part coding and larger part network building and research.
+<!--l. 313--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">14.1. </span> <a 
+ id="x1-4100014.1"></a><span 
+class="cmbx-10">Legal consultation.</span></span>
+<!--l. 314--><p class="indent" >  We would like to construct both smart contracts and templates for legal contracts that
+are legally viable in most jurisdictions, and will not expose anyone to any harmful
+litigation. This requires serious consultation with appropriate legal counsel. The main
+resource required here is money. We don&#8217;t believe we are selling securities, or offering
+gambling, but we would like to assure the network that we are on the right side of the
+law.
+<!--l. 315--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">14.2. </span> <a 
+ id="x1-4200014.2"></a><span 
+class="cmbx-10">Network Building.</span></span>
+<!--l. 316--><p class="indent" >  We will need to find partners and service providers to get the network started. This
+will require time and effort by team members
+<!--l. 317--><p class="noindent" ><span class="subsectionHead"><span class="titlemark">14.3. </span> <a 
+ id="x1-4300014.3"></a><span 
+class="cmbx-10">Development.</span></span>
+<!--l. 318--><p class="indent" >  Obviously, this is also a critical component. To accelerate to process, we would need
+hire dedicated developers. If enough funding is available, this could simply mean offering
+team members enough to &#8220;quit their day job.&#8221;
+
+  <h3 class="sectionHead"><a 
+ id="x1-4400014.3"></a>References</h3>
+<!--l. 8--><p class="noindent" >
+         <div class="thebibliography">
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[AB11]</span>    <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XBA2011"></a><span 
+class="cmr-8">Nejat Anbarci and John Boyd, </span><span 
+class="cmti-8">Nash demand game and the kalai-smorodinsky</span>
+         <span 
+class="cmti-8">solution</span><span 
+class="cmr-8">, Games and Economic Behavior </span><span 
+class="cmbx-8">71 </span><span 
+class="cmr-8">(2011), no.</span><span 
+class="cmr-8">&#x00A0;1, 14&#8211;22.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[BCG15]</span>   <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XBCG"></a><span 
+class="cmr-8">Joseph Bonneau, Jeremy Clark, and Steven Goldfeder, </span><span 
+class="cmti-8">On bitcoin as a public</span>
+         <span 
+class="cmti-8">randomness source</span><span 
+class="cmr-8">, IACR Cryptology ePrint Archive </span><span 
+class="cmbx-8">2015 </span><span 
+class="cmr-8">(2015), 1015.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[BRW86]</span>   <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XBRW86"></a><span 
+class="cmr-8">Ken  Binmore,  Ariel  Rubinstein,  and  Asher  Wolinsky,  </span><span 
+class="cmti-8">The  nash  bargaining</span>
+         <span 
+class="cmti-8">solution  in  economic  modelling</span><span 
+class="cmr-8">,  RAND  Journal  of  Economics  </span><span 
+class="cmbx-8">17 </span><span 
+class="cmr-8">(1986),  no.</span><span 
+class="cmr-8">&#x00A0;2,</span>
+         <span 
+class="cmr-8">176&#8211;188.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Mut99]</span>   <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XMuthoo"></a><span 
+class="cmr-8">Abhinay  Muthoo,  </span><span 
+class="cmti-8">Bargaining  theory  with  applications</span><span 
+class="cmr-8">,  Cambridge  University</span>
+         <span 
+class="cmr-8">Press, New York, NY, USA, 1999.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Nas53]</span>    <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XNash53"></a><span 
+class="cmr-8">John  Nash,  </span><span 
+class="cmti-8">Two-person  cooperative  games</span><span 
+class="cmr-8">,  Econometrica  </span><span 
+class="cmbx-8">21  </span><span 
+class="cmr-8">(1953),  no.</span><span 
+class="cmr-8">&#x00A0;1,</span>
+         <span 
+class="cmr-8">128&#8211;140.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Neu28]</span>    <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XNeumann1928"></a><span 
+class="cmr-8">J.</span><span 
+class="cmr-8">&#x00A0;von Neumann, </span><span 
+class="cmti-8">Zur theorie der gesellschaftsspiele</span><span 
+class="cmr-8">, Mathematische Annalen </span><span 
+class="cmbx-8">100</span>
+         <span 
+class="cmr-8">(1928), 295&#8211;320.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[NIS11]</span>    <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XNIST"></a><span 
+class="cmti-8">Nist randomness beacon</span><span 
+class="cmr-8">, https://beacon.nist.gov (2011).</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[PW16]</span>    <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XPW16"></a><span 
+class="cmr-8">C</span><span 
+class="cmr-8">écile Pierrot and Benjamin Wesolowski, </span><span 
+class="cmti-8">Malleability of the blockchain&#8217;s entropy</span><span 
+class="cmr-8">,</span>
+         <span 
+class="cmr-8">IACR Cryptology ePrint Archive </span><span 
+class="cmbx-8">2016 </span><span 
+class="cmr-8">(2016), 370.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[RPOFZ91]</span> <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XRoth91"></a><span 
+class="cmr-8">Alvin  Roth,  Vesna  Prasnikar,  Masahiro  Okuno-Fujiwara,  and  Shmuel  Zamir,</span>
+         <span 
+class="cmti-8">Bargaining and market behavior in jerusalem, ljubljana, pittsburgh, and tokyo: An</span>
+         <span 
+class="cmti-8">experimental study</span><span 
+class="cmr-8">, American Economic Review </span><span 
+class="cmbx-8">81 </span><span 
+class="cmr-8">(1991), no.</span><span 
+class="cmr-8">&#x00A0;5, 1068&#8211;95.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Rub82]</span>   <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XR82"></a><span 
+class="cmr-8">Ariel Rubinstein, </span><span 
+class="cmti-8">Perfect equilibrium in a bargaining model</span><span 
+class="cmr-8">, Econometrica </span><span 
+class="cmbx-8">50</span>
+         <span 
+class="cmr-8">(1982), no.</span><span 
+class="cmr-8">&#x00A0;1, 97&#8211;109.</span>
+         </p>
+         <p class="bibitem" ><span class="biblabel">
+<span 
+class="cmr-8">[Sch60]</span>    <span class="bibsp"><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span><span 
+class="cmr-8">&#x00A0;</span></span></span><a 
+ id="XSchelling1960"></a><span 
+class="cmr-8">T.</span><span 
+class="cmr-8">&#x00A0;C. Schelling, </span><span 
+class="cmti-8">The strategy of conflict</span><span 
+class="cmr-8">, Oxford University Press, 1960.</span>
+</p>
+         </div>
+  <div class="addresses">
+<!--l. 328--><p class="indent" >  <span class="email-title">    <span 
+class="cmti-8">E-mail address</span><span 
+class="cmr-8">: </span></span><span class="email"><span 
+class="cmtt-8">micah@levetrage.com</span></span>
+<!--l. 328--><p class="indent" >  <span class="address-title"></span><span class="address"><span 
+class="cmcsc-10x-x-80">M<span 
+class="small-caps">i</span><span 
+class="small-caps">x</span><span 
+class="small-caps">e</span><span 
+class="small-caps">d</span> M<span 
+class="small-caps">e</span><span 
+class="small-caps">t</span><span 
+class="small-caps">r</span><span 
+class="small-caps">i</span><span 
+class="small-caps">c</span><span 
+class="small-caps">s</span>, LLC, E<span 
+class="small-caps">u</span><span 
+class="small-caps">g</span><span 
+class="small-caps">e</span><span 
+class="small-caps">n</span><span 
+class="small-caps">e</span>, OR</span></span>
+  </div> 
+</body></html> 
+
+
+
